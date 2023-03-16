@@ -1,2 +1,0 @@
-inheritance first exercise
-test
