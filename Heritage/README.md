@@ -1,1 +1,2 @@
 inheritance first exercise
+test
