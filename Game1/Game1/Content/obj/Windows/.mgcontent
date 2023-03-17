@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/romai/source/repos/Romain-Ber/GameCodeur-CSharp/Game1/Game1/Content/personnage.png</File>
+    <File>C:/Users/romai/source/repos/Romain-Ber/GameCodeur-CSharp/Game1/Game1/Content/slimePurple.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

@@ -10,6 +10,8 @@ namespace Game1
         private SpriteBatch _spriteBatch;
         Texture2D img;
         Vector2 position;
+        int speedX;
+        int speedY;
 
         public Game1()
         {
@@ -22,6 +24,8 @@ namespace Game1
         {
             // TODO: Add your initialization logic here
             position = new Vector2(100, 100);
+            speedX = 10;
+            speedY = 5;
 
             base.Initialize();
         }
@@ -40,6 +44,24 @@ namespace Game1
                 Exit();
 
             // TODO: Add your update logic here
+            if (position.X + img.Width >= GraphicsDevice.Viewport.Width)
+            {
+                speedX = -speedX;
+            }
+            else if (position.X <= 0)
+            {
+                speedX = -speedX;
+            }
+            position.X += speedX;
+            if (position.Y + img.Height >= GraphicsDevice.Viewport.Height)
+            {
+                speedY = -speedY;
+            }
+            else if (position.Y <= 0)
+            {
+                speedY = -speedY;
+            }
+            position.Y += speedY;
 
             base.Update(gameTime);
         }
