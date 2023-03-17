@@ -11,6 +11,8 @@ namespace Collisions
         public Vector2 position;
         public int speedX;
         public float transparency;
+        public bool panelStop;
+        public Color panelColor;
     }
     public class Game1 : Game
     {
@@ -19,6 +21,7 @@ namespace Collisions
         Texture2D img;
         List<Panel> listPanel;
         Random rnd;
+        MouseState lastState;
         
 
         public Game1()
@@ -28,6 +31,8 @@ namespace Collisions
             IsMouseVisible = true;
             listPanel = new List<Panel>();
             rnd = new Random();
+
+            IsMouseVisible = true;
             
         }
 
@@ -53,6 +58,8 @@ namespace Collisions
                 myPanel.position = new Vector2(x, y);
                 myPanel.speedX = rnd.Next(1,5);
                 myPanel.transparency = 0.5f;
+                myPanel.panelStop = false;
+                myPanel.panelColor = Color.White;
                 listPanel.Add(myPanel);
             }
         }
@@ -63,8 +70,18 @@ namespace Collisions
                 Exit();
 
             // TODO: Add your update logic here
-            foreach (Panel item in listPanel)
+            MouseState newState = Mouse.GetState();
+            bool bClick = false;
+            if (newState.LeftButton == ButtonState.Pressed && lastState.LeftButton == ButtonState.Released)
             {
+                Console.WriteLine("Click!");
+                bClick = true;
+            }
+            lastState = newState;
+            bool collideImg = false;
+            for (int i = listPanel.Count -1 ; i >= 0; i--)
+            {
+                Panel item = listPanel[i];
                 if (item.position.X + img.Width > GraphicsDevice.Viewport.Width)
                 {
                     item.speedX = -item.speedX;
@@ -74,6 +91,28 @@ namespace Collisions
                     item.speedX = -item.speedX;
                 }
                 item.position.X += item.speedX;
+                if (bClick && collideImg == false)
+                {
+                    if (newState.X >= item.position.X &&
+                        newState.X <= item.position.X + img.Width &&
+                        newState.Y >= item.position.Y &&
+                        newState.Y <= item.position.Y + img.Height)
+                    {
+                        collideImg = true;
+                        if (item.panelStop == false)
+                        {
+                            item.panelStop = true;
+                            item.speedX = 0;
+                            item.panelColor = Color.Red;
+                        }
+                        else
+                        {
+                            item.panelStop = false;
+                            item.speedX = rnd.Next(1, 5);
+                            item.panelColor = Color.White;
+                        }
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -89,7 +128,7 @@ namespace Collisions
             foreach (Panel item in listPanel)
             {
                 effect = SpriteEffects.None;
-                _spriteBatch.Draw(img, item.position, null, Color.White * item.transparency, 0, Vector2.Zero, 1.0f, effect, 0);
+                _spriteBatch.Draw(img, item.position, null, item.panelColor * item.transparency, 0, Vector2.Zero, 1.0f, effect, 0);
             }
             _spriteBatch.End();
 
