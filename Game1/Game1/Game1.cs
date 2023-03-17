@@ -8,6 +8,8 @@ namespace Game1
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        Texture2D img;
+        Vector2 position;
 
         public Game1()
         {
@@ -19,6 +21,7 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            position = new Vector2(100, 100);
 
             base.Initialize();
         }
@@ -28,6 +31,7 @@ namespace Game1
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            img = this.Content.Load<Texture2D>("personnage");
         }
 
         protected override void Update(GameTime gameTime)
@@ -42,9 +46,12 @@ namespace Game1
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(img, position, Color.White);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
